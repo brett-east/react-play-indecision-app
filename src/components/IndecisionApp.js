@@ -4,23 +4,35 @@ import AddOption from './AddOption';
 import Options from './Options';
 import Header from './Header';
 import Action from './Action';
+import OptionModal from './OptionModal';
 
 export default class IndecisionApp extends React.Component {
   state = {
-    options: []
+    options: [],
+    selectedOption: undefined,
   };
+
   handleDeleteOptions = () => {
     this.setState(() => ({ options: [] }));
   };
+
   handleDeleteOption = (optionToRemove) => {
     this.setState((prevState) => ({
       options: prevState.options.filter((option) => optionToRemove !== option)
     }));
   };
+
   handlePick = () => {
     const optionNumber = Math.floor(Math.random() * this.state.options.length);
-    alert(this.state.options[optionNumber]);
+    const option = this.state.options[optionNumber];
+
+    this.setState(() => ({ selectedOption: option }));
   };
+
+  handleClearOption = () => {
+    this.setState(() => ({ selectedOption: undefined }));
+  };
+
   handleAddOption = (option) => {
     if (!option) {
       return 'Enter valid value to add item';
@@ -32,6 +44,7 @@ export default class IndecisionApp extends React.Component {
       options: prevState.options.concat(option)
     }));
   };
+
   componentDidMount() {
     try {
       const json = localStorage.getItem('options');
@@ -44,15 +57,14 @@ export default class IndecisionApp extends React.Component {
 
     }
   }
+
   componentDidUpdate(prevProps, prevState) {
     if (prevState.options.length !== this.state.options.length) {
       const json = JSON.stringify(this.state.options);
       localStorage.setItem('options', json);
     }
   }
-  componentWillUnmount() {
 
-  }
   render() {
     const subtitle = 'Put your life in the hands of a computer';
 
@@ -70,6 +82,10 @@ export default class IndecisionApp extends React.Component {
         />
         <AddOption
           handleAddOption={this.handleAddOption}
+        />
+        <OptionModal
+          handleClearOption={this.handleClearOption}
+          selectedOption={this.state.selectedOption}
         />
       </div>
     );
