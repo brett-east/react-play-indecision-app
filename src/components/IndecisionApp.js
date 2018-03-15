@@ -83,7 +83,6 @@ export default class IndecisionApp extends React.Component {
               handleDeleteOption={this.handleDeleteOption}
             />
             <AddOption
-              type="yellow"
               handleAddOption={this.handleAddOption}
             />
           </div>
