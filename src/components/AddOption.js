@@ -2,7 +2,8 @@ import React from 'react';
 
 export default class AddOption extends React.Component {
   state = {
-    error: undefined
+    error: undefined,
+    type: this.props.type
   };
   handleAddOption = (e) => {
     e.preventDefault();
@@ -17,6 +18,7 @@ export default class AddOption extends React.Component {
     }
   };
   render() {
+    console.log(this.state);
     return (
       <div>
         {this.state.error && <p className="add-option-error">{this.state.error}</p>}
